@@ -4,9 +4,14 @@ import TableRow from './TableRow';
 // import PropTypes from 'prop-types';
 
 function Table() {
-  const { data: { results }, loading } = useContext(PlanetsContext);
+  const { data: { results }, loading, filters } = useContext(PlanetsContext);
+  const { name: filterName } = filters;
+
   if (loading) return <h1>Loading...</h1>;
-  console.log(results);
+
+  const filtered = results
+    .filter(({ name }) => name.toLowerCase().includes(filterName.value));
+
   return (
     <table>
       <thead>
@@ -28,7 +33,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          results.map((planet) => (
+          filtered.map((planet) => (
             <TableRow planet={ planet } key={ planet.name } />
           ))
         }

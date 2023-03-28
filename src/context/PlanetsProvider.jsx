@@ -1,15 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './planetsContext';
 import useFetch from '../hooks/useFetch';
 
 function PlanetsProvider({ children }) {
+  const [filterName, setFilterName] = useState('');
   const [data, error, loading, fetchPlanets] = useFetch('https://swapi.dev/api/planets', { results: [] });
+
   useEffect(() => {
     fetchPlanets();
   }, []);
+
+  const filters = {
+    name: { value: filterName, onChange: setFilterName },
+  };
   return (
-    <PlanetsContext.Provider value={ { data, error, loading } }>
+    <PlanetsContext.Provider value={ { data, error, loading, filters } }>
       { children }
     </PlanetsContext.Provider>
   );
