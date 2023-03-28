@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/planetsContext';
+import generateId from '../utils/generateId';
 import TableRow from './TableRow';
 // import PropTypes from 'prop-types';
 
@@ -11,16 +12,22 @@ function Table() {
 
   const filtered = results
     .filter((planet) => {
-      const { values: { comparison, value, column } } = selectors;
+      const { values } = selectors;
       const nameIncludes = planet.name.toLowerCase().includes(filterName.value);
-      let comparisonResp;
-      if (comparison === 'maior que') {
-        comparisonResp = parseInt(planet[column], 10) > parseInt(value, 10);
-      } else if (comparison === 'menor que') {
-        comparisonResp = parseInt(planet[column], 10) < parseInt(value, 10);
-      } else {
-        comparisonResp = parseInt(planet[column], 10) === parseInt(value, 10);
+      let comparisonResp = values.length === 0;
+
+      if (values.length !== 0) {
+        comparisonResp = values.every(({ comparison, column, value }) => {
+          if (comparison === 'maior que') {
+            return parseInt(planet[column], 10) > parseInt(value, 10);
+          }
+          if (comparison === 'menor que') {
+            return parseInt(planet[column], 10) < parseInt(value, 10);
+          }
+          return parseInt(planet[column], 10) === parseInt(value, 10);
+        });
       }
+
       return nameIncludes && comparisonResp;
     });
 
@@ -46,7 +53,7 @@ function Table() {
       <tbody>
         {
           filtered.map((planet) => (
-            <TableRow planet={ planet } key={ planet.name } />
+            <TableRow planet={ planet } key={ generateId() } />
           ))
         }
       </tbody>

@@ -5,9 +5,7 @@ import useFetch from '../hooks/useFetch';
 
 function PlanetsProvider({ children }) {
   const [filterName, setFilterName] = useState('');
-  const [selectors, setSelectors] = useState({
-    column: 'population', comparison: 'maior que', value: '0',
-  });
+  const [selectors, setSelectors] = useState([]);
   const [data, error, loading, fetchPlanets] = useFetch('https://swapi.dev/api/planets', { results: [] });
 
   useEffect(() => {
