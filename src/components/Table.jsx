@@ -7,8 +7,6 @@ function Table() {
   const { data: { results }, loading, filters } = useContext(PlanetsContext);
   const { name: filterName, selectors } = filters;
 
-  console.log(selectors);
-
   if (loading) return <h1>Loading...</h1>;
 
   const filtered = results

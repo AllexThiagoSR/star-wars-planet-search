@@ -4,8 +4,8 @@ import useSelector from '../hooks/useSelector';
 // import PropTypes from 'prop-types';
 
 function FiltersForm() {
-  const { filters: { name, selectors } } = useContext(PlanetsContext);
-  const selectorsHandle = useSelector();
+  const { filters: { name } } = useContext(PlanetsContext);
+  const [actualValues, selectorsHandle, sendSelectorsFilter] = useSelector();
   return (
     <form>
       <input
@@ -17,7 +17,7 @@ function FiltersForm() {
       <select
         data-testid="column-filter"
         name="column"
-        value={ selectors.values.column }
+        value={ actualValues.column }
         onChange={ selectorsHandle }
       >
         <option value="population">population</option>
@@ -29,7 +29,7 @@ function FiltersForm() {
       <select
         data-testid="comparison-filter"
         name="comparison"
-        value={ selectors.values.comparison }
+        value={ actualValues.comparison }
         onChange={ selectorsHandle }
       >
         <option value="maior que">maior que</option>
@@ -40,9 +40,20 @@ function FiltersForm() {
         data-testid="value-filter"
         type="number"
         name="value"
-        value={ selectors.values.value }
+        value={ actualValues.value }
         onChange={ selectorsHandle }
       />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => {
+          sendSelectorsFilter({ ...actualValues });
+        } }
+      >
+        Filtrar
+
+      </button>
+
     </form>
   );
 }

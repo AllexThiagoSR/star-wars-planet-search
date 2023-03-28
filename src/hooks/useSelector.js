@@ -1,13 +1,18 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import PlanetsContext from '../context/planetsContext';
 
 export default function useSelector() {
   const { filters: { selectors } } = useContext(PlanetsContext);
-
-  const { values, onChange } = selectors;
+  const [values, setValues] = useState({ ...selectors.values });
+  const { onChange } = selectors;
 
   const handleSelectorSearch = ({ target: { name, value } }) => {
-    onChange({ ...values, [name]: value });
+    setValues({ ...values, [name]: value });
   };
-  return handleSelectorSearch;
+
+  const changeSelectorsState = (selectorsState) => {
+    onChange(selectorsState);
+  };
+
+  return [values, handleSelectorSearch, changeSelectorsState];
 }
