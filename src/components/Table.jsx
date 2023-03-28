@@ -5,12 +5,26 @@ import TableRow from './TableRow';
 
 function Table() {
   const { data: { results }, loading, filters } = useContext(PlanetsContext);
-  const { name: filterName } = filters;
+  const { name: filterName, selectors } = filters;
+
+  console.log(selectors);
 
   if (loading) return <h1>Loading...</h1>;
 
   const filtered = results
-    .filter(({ name }) => name.toLowerCase().includes(filterName.value));
+    .filter((planet) => {
+      const { values: { comparison, value, column } } = selectors;
+      const nameIncludes = planet.name.toLowerCase().includes(filterName.value);
+      let comparisonResp;
+      if (comparison === 'maior que') {
+        comparisonResp = parseInt(planet[column], 10) > parseInt(value, 10);
+      } else if (comparison === 'menor que') {
+        comparisonResp = parseInt(planet[column], 10) < parseInt(value, 10);
+      } else {
+        comparisonResp = parseInt(planet[column], 10) === parseInt(value, 10);
+      }
+      return nameIncludes && comparisonResp;
+    });
 
   return (
     <table>
