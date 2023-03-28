@@ -6,6 +6,7 @@ import useSelector from '../hooks/useSelector';
 function FiltersForm() {
   const { filters: { name } } = useContext(PlanetsContext);
   const [actualValues, selectorsHandle, sendSelectorsFilter] = useSelector();
+
   return (
     <form>
       <input

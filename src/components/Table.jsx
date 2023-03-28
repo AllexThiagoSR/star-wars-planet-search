@@ -1,35 +1,16 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/planetsContext';
+import useFilters from '../hooks/useFilters';
 import generateId from '../utils/generateId';
 import TableRow from './TableRow';
 // import PropTypes from 'prop-types';
 
 function Table() {
-  const { data: { results }, loading, filters } = useContext(PlanetsContext);
-  const { name: filterName, selectors } = filters;
+  const { data: { results }, loading } = useContext(PlanetsContext);
+
+  const filtered = useFilters(results);
 
   if (loading) return <h1>Loading...</h1>;
-
-  const filtered = results
-    .filter((planet) => {
-      const { values } = selectors;
-      const nameIncludes = planet.name.toLowerCase().includes(filterName.value);
-      let comparisonResp = values.length === 0;
-
-      if (values.length !== 0) {
-        comparisonResp = values.every(({ comparison, column, value }) => {
-          if (comparison === 'maior que') {
-            return parseInt(planet[column], 10) > parseInt(value, 10);
-          }
-          if (comparison === 'menor que') {
-            return parseInt(planet[column], 10) < parseInt(value, 10);
-          }
-          return parseInt(planet[column], 10) === parseInt(value, 10);
-        });
-      }
-
-      return nameIncludes && comparisonResp;
-    });
 
   return (
     <table>
