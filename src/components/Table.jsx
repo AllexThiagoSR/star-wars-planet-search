@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/planetsContext';
+import TableRow from './TableRow';
 // import PropTypes from 'prop-types';
 
 function Table() {
@@ -25,6 +26,13 @@ function Table() {
           <th>URL</th>
         </tr>
       </thead>
+      <tbody>
+        {
+          results.map((planet) => (
+            <TableRow planet={ planet } key={ planet.name } />
+          ))
+        }
+      </tbody>
     </table>
   );
 }
