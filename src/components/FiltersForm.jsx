@@ -43,7 +43,6 @@ function FiltersForm() {
               key={ generateId() }
             >
               {opt}
-
             </option>
           ))
         }
@@ -69,7 +68,7 @@ function FiltersForm() {
         type="button"
         data-testid="button-filter"
         onClick={ () => {
-          sendSelectorsFilter({ ...actualValues });
+          sendSelectorsFilter({ ...actualValues, id: generateId() });
         } }
       >
         Filtrar
