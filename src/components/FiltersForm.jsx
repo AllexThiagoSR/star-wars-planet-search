@@ -13,6 +13,7 @@ function FiltersForm() {
     allColumns,
     columns,
     setColumns,
+    clearFilters,
   ] = useSelector();
 
   useEffect(() => {
@@ -74,7 +75,13 @@ function FiltersForm() {
         Filtrar
 
       </button>
-
+      <button
+        data-testid="button-remove-filters"
+        type="button"
+        onClick={ () => clearFilters() }
+      >
+        Remover Filtros
+      </button>
     </form>
   );
 }

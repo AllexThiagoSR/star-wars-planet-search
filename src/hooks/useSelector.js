@@ -22,6 +22,8 @@ export default function useSelector() {
     await onChange([...activeSelectors, selectorsState]);
   };
 
+  const clearFilters = () => onChange([]);
+
   return [
     values,
     handleSelectorSearch,
@@ -29,5 +31,6 @@ export default function useSelector() {
     allColumns,
     columns,
     setColumns,
+    clearFilters,
   ];
 }
