@@ -1,11 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/planetsContext';
 import useSelector from '../hooks/useSelector';
+import generateId from '../utils/generateId';
 // import PropTypes from 'prop-types';
 
 function FiltersForm() {
-  const { filters: { name } } = useContext(PlanetsContext);
-  const [actualValues, selectorsHandle, sendSelectorsFilter] = useSelector();
+  const { filters: { name, selectors } } = useContext(PlanetsContext);
+  const [
+    actualValues, selectorsHandle, sendSelectorsFilter, columns, setColumns,
+  ] = useSelector();
+
+  const columnsOptions = columns
+    .filter((opt) => !selectors.values.some(({ column }) => column === opt));
+
+  useEffect(() => {
+    setColumns(columnsOptions);
+    selectorsHandle({ target: { name: 'column', value: columnsOptions[0] } });
+  }, [selectors]);
 
   return (
     <form>
@@ -21,11 +32,17 @@ function FiltersForm() {
         value={ actualValues.column }
         onChange={ selectorsHandle }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {
+          columnsOptions.map((opt) => (
+            <option
+              value={ opt }
+              key={ generateId() }
+            >
+              {opt}
+
+            </option>
+          ))
+        }
       </select>
       <select
         data-testid="comparison-filter"
