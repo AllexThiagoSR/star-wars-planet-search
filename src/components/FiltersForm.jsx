@@ -7,13 +7,17 @@ import generateId from '../utils/generateId';
 function FiltersForm() {
   const { filters: { name, selectors } } = useContext(PlanetsContext);
   const [
-    actualValues, selectorsHandle, sendSelectorsFilter, columns, setColumns,
+    actualValues,
+    selectorsHandle,
+    sendSelectorsFilter,
+    allColumns,
+    columns,
+    setColumns,
   ] = useSelector();
 
-  const columnsOptions = columns
-    .filter((opt) => !selectors.values.some(({ column }) => column === opt));
-
   useEffect(() => {
+    const columnsOptions = allColumns
+      .filter((opt) => !selectors.values.some(({ column }) => column === opt));
     setColumns(columnsOptions);
     selectorsHandle({ target: { name: 'column', value: columnsOptions[0] } });
   }, [selectors]);
@@ -33,7 +37,7 @@ function FiltersForm() {
         onChange={ selectorsHandle }
       >
         {
-          columnsOptions.map((opt) => (
+          columns.map((opt) => (
             <option
               value={ opt }
               key={ generateId() }

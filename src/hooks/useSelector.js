@@ -6,6 +6,9 @@ export default function useSelector() {
   const [columns, setColumns] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ]);
+  const [allColumns] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ]);
   const [values, setValues] = useState({
     column: 'population', comparison: 'maior que', value: '0',
   });
@@ -19,5 +22,12 @@ export default function useSelector() {
     await onChange([...activeSelectors, selectorsState]);
   };
 
-  return [values, handleSelectorSearch, changeSelectorsState, columns, setColumns];
+  return [
+    values,
+    handleSelectorSearch,
+    changeSelectorsState,
+    allColumns,
+    columns,
+    setColumns,
+  ];
 }
