@@ -7,6 +7,7 @@ function FiltersForm() {
   const { filters: {
     name,
     selectors,
+    sort,
   } } = useContext(PlanetsContext);
   const [
     actualValues,
@@ -18,7 +19,6 @@ function FiltersForm() {
     clearFilters,
   ] = useSelector();
   const [how, setHow] = useState({ column: 'population', sort: 'ASC' });
-  const { filters: { sort } } = useContext(PlanetsContext);
 
   useEffect(() => {
     const columnsOptions = allColumns

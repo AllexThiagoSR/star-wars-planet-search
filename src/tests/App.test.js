@@ -20,11 +20,14 @@ describe('Testa a renderização da tabela', () => {
     expect(tableRows).toHaveLength(11);
   });
 
-  // test('Testa se é renderizado os elementos da tabela', async () => {
-  //   global.fetch = jest.fn(mockFetch);
-  //   render(<App />);
-  //   await waitForElementToBeRemoved(() => screen.getByText('Loading...'));
-  //   const tableRows = screen.getAllByRole('row');
-  //   expect(tableRows).toHaveLength(11);
-  // });
+  test('Testa se é renderizado os elementos da tabela', async () => {
+    global.fetch = jest.fn(mockFetch);
+    render(<App />);
+    await waitForElementToBeRemoved(() => screen.getByText('Loading...'));
+    const nameInput = screen.getByRole('textbox');
+    const numberInput = screen.getByRole('spinbutton');
+    const selects = screen.getAllByRole('combobox');
+    expect(nameInput).toBeInTheDocument();
+    expect(numberInput).toBeInTheDocument();
+  });
 });

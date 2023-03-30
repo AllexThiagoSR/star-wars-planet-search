@@ -4,7 +4,6 @@ import useFilters from '../hooks/useFilters';
 import useSort from '../hooks/useSort';
 import generateId from '../utils/generateId';
 import TableRow from './TableRow';
-// import PropTypes from 'prop-types';
 
 function Table() {
   const { data: { results }, loading } = useContext(PlanetsContext);
@@ -44,9 +43,5 @@ function Table() {
     </table>
   );
 }
-
-Table.propTypes = {
-
-};
 
 export default Table;

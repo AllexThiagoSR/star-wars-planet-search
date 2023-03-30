@@ -9,7 +9,7 @@ export default function useFilters(array) {
     .filter((planet) => {
       const { values } = selectors;
       const nameIncludes = planet.name.toLowerCase().includes(filterName.value);
-      let comparisonResp = values.length === 0;
+      let comparisonResp = true;
 
       if (values.length !== 0) {
         comparisonResp = values.every(({ comparison, column, value }) => {
