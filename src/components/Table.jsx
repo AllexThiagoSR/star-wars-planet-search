@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/planetsContext';
 import useFilters from '../hooks/useFilters';
+import useSort from '../hooks/useSort';
 import generateId from '../utils/generateId';
 import TableRow from './TableRow';
 // import PropTypes from 'prop-types';
@@ -9,6 +10,8 @@ function Table() {
   const { data: { results }, loading } = useContext(PlanetsContext);
 
   const filtered = useFilters(results);
+
+  const sorted = useSort(filtered);
 
   if (loading) return <h1>Loading...</h1>;
 
@@ -33,7 +36,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          filtered.map((planet) => (
+          sorted.map((planet) => (
             <TableRow planet={ planet } key={ generateId() } />
           ))
         }

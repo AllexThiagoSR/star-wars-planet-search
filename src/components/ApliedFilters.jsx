@@ -3,8 +3,6 @@ import PlanetsContext from '../context/planetsContext';
 
 function ApliedFilters() {
   const { filters: { selectors: { values, onChange } } } = useContext(PlanetsContext);
-  console.log(useContext(PlanetsContext));
-  console.log(values);
   return (
     <div>
       <ul>

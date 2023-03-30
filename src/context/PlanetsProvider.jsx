@@ -6,6 +6,7 @@ import useFetch from '../hooks/useFetch';
 function PlanetsProvider({ children }) {
   const [filterName, setFilterName] = useState('');
   const [selectors, setSelectors] = useState([]);
+  const [sort, setSort] = useState({ column: '', sort: '' });
   const [data, error, loading, fetchPlanets] = useFetch('https://swapi.dev/api/planets', { results: [] });
 
   useEffect(() => {
@@ -15,6 +16,7 @@ function PlanetsProvider({ children }) {
   const filters = {
     name: { value: filterName, onChange: setFilterName },
     selectors: { values: selectors, onChange: setSelectors },
+    sort: { how: sort, setHow: setSort },
   };
 
   return (

@@ -1,11 +1,14 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/planetsContext';
 import useSelector from '../hooks/useSelector';
 import generateId from '../utils/generateId';
 // import PropTypes from 'prop-types';
 
 function FiltersForm() {
-  const { filters: { name, selectors } } = useContext(PlanetsContext);
+  const { filters: {
+    name,
+    selectors,
+  } } = useContext(PlanetsContext);
   const [
     actualValues,
     selectorsHandle,
@@ -15,6 +18,8 @@ function FiltersForm() {
     setColumns,
     clearFilters,
   ] = useSelector();
+  const [how, setHow] = useState({ column: 'population', sort: 'ASC' });
+  const { filters: { sort } } = useContext(PlanetsContext);
 
   useEffect(() => {
     const columnsOptions = allColumns
@@ -73,7 +78,47 @@ function FiltersForm() {
         } }
       >
         Filtrar
-
+      </button>
+      <select
+        data-testid="column-sort"
+        name="column"
+        value={ how.column }
+        onChange={ ({ target }) => setHow({ ...how, [target.name]: target.value }) }
+      >
+        <option value="population">population</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
+      <label htmlFor="sortAsc">
+        <input
+          type="radio"
+          name="sort"
+          id="sortAsc"
+          data-testid="column-sort-input-asc"
+          value="ASC"
+          onChange={ ({ target }) => setHow({ ...how, [target.name]: target.value }) }
+        />
+        Ascendente
+      </label>
+      <label htmlFor="sortDesc">
+        <input
+          type="radio"
+          name="sort"
+          id="sortDesc"
+          data-testid="column-sort-input-desc"
+          value="DESC"
+          onChange={ ({ target }) => setHow({ ...how, [target.name]: target.value }) }
+        />
+        Descendente
+      </label>
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        onClick={ () => sort.setHow(how) }
+      >
+        Ordenar
       </button>
       <button
         data-testid="button-remove-filters"
