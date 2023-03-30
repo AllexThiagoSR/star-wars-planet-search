@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/planetsContext';
 import useSelector from '../hooks/useSelector';
 import generateId from '../utils/generateId';
-// import PropTypes from 'prop-types';
 
 function FiltersForm() {
   const { filters: {
@@ -130,9 +129,5 @@ function FiltersForm() {
     </form>
   );
 }
-
-FiltersForm.propTypes = {
-
-};
 
 export default FiltersForm;
