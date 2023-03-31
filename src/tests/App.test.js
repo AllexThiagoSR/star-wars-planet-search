@@ -8,7 +8,8 @@ import { act } from 'react-dom/test-utils';
 describe('Testa a renderização da tabela', () => {
   beforeEach(() => {
     global.fetch = jest.fn(mockFetch);
-  })
+  });
+
   test('Testa se o "Loading..." aparece na tela e chama o fetch', async () => {
     act(() => {
       render(<App />);
@@ -71,15 +72,27 @@ describe('Testa a renderização da tabela', () => {
     const comparison = screen.getByTestId('comparison-filter')
     const filterButton = screen.getByRole('button', { name: 'Filtrar' });
     userEvent.selectOptions(column, 'rotation_period');
-    // await waitFor(() => expect(screen.getAllByText('rotation_period')[0]).toBeVisible(), { timeout: 2000 });
     userEvent.selectOptions(column, 'rotation_period');
     userEvent.selectOptions(comparison, 'igual a');
     userEvent.clear(numberInput);
     userEvent.type(numberInput, '23')
     userEvent.click(filterButton);
     await waitFor(() => screen.getByRole('button', { name: 'Remover'}));
-    screen.logTestingPlaygroundURL();
     const tableRows = screen.getAllByRole('row');
     expect(tableRows).toHaveLength(4);
+  });
+
+  test('Testa se é possível ordernar', async () => {
+    act(() => {
+      render(<App />);
+    });
+    await waitForElementToBeRemoved(() => screen.getByText('Loading...'));
+    expect(screen.getAllByRole('row')).toHaveLength(11);
+    const [acsRadio, descRadio] = screen.getAllByRole('radio');
+    const sortButton = screen.getByRole('button', { name: 'Ordenar' })
+    userEvent.click(acsRadio);
+    userEvent.click(sortButton);
+    screen.logTestingPlaygroundURL();
+    expect(screen.getAllByTestId('planet-name')[0]).toHaveTextContent('Yavin IV');
   });
 });
