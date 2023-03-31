@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import generateId from '../utils/generateId';
 
 function TableRow({ planet }) {
   const {
@@ -31,10 +32,10 @@ function TableRow({ planet }) {
       <td>
         {
           films.map((film) => (
-            <>
+            <div key={ generateId() }>
               <span>{film}</span>
               <br />
-            </>
+            </div>
           ))
         }
       </td>

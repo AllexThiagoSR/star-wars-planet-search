@@ -80,9 +80,16 @@ describe('Testa a renderização da tabela', () => {
     await waitFor(() => screen.getByRole('button', { name: 'Remover'}));
     const tableRows = screen.getAllByRole('row');
     expect(tableRows).toHaveLength(4);
+    userEvent.click(screen.getByRole('button', { name: 'Remover' }));
+    expect(screen.getAllByRole('row')).toHaveLength(11);
+    userEvent.selectOptions(comparison, 'maior que');
+    userEvent.clear(numberInput);
+    userEvent.type(numberInput, '0');
+    userEvent.click(filterButton);
+    expect(screen.getAllByRole('row')).toHaveLength(9);
   });
 
-  test('Testa se é possível ordernar', async () => {
+  test('Testa se é possível ordernar de forma ascendente e descendente', async () => {
     act(() => {
       render(<App />);
     });
@@ -92,7 +99,9 @@ describe('Testa a renderização da tabela', () => {
     const sortButton = screen.getByRole('button', { name: 'Ordenar' })
     userEvent.click(acsRadio);
     userEvent.click(sortButton);
-    screen.logTestingPlaygroundURL();
     expect(screen.getAllByTestId('planet-name')[0]).toHaveTextContent('Yavin IV');
+    userEvent.click(descRadio);
+    userEvent.click(sortButton);
+    expect(screen.getAllByTestId('planet-name')[0]).toHaveTextContent('Coruscant');
   });
 });
