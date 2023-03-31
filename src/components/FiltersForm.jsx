@@ -10,8 +10,6 @@ function FiltersForm() {
     sort,
   } } = useContext(PlanetsContext);
   const [
-    actualValues,
-    selectorsHandle,
     sendSelectorsFilter,
     allColumns,
     columns,
@@ -19,12 +17,19 @@ function FiltersForm() {
     clearFilters,
   ] = useSelector();
   const [how, setHow] = useState({ column: 'population', sort: 'ASC' });
+  const [values, setValues] = useState({
+    column: 'population', comparison: 'maior que', value: '0',
+  });
+
+  const handleSelectorSearch = ({ target: { name: objName, value } }) => {
+    setValues({ ...values, [objName]: value });
+  };
 
   useEffect(() => {
     const columnsOptions = allColumns
       .filter((opt) => !selectors.values.some(({ column }) => column === opt));
     setColumns(columnsOptions);
-    selectorsHandle({ target: { name: 'column', value: columnsOptions[0] } });
+    handleSelectorSearch({ target: { name: 'column', value: columnsOptions[0] } });
   }, [selectors]);
 
   return (
@@ -38,8 +43,8 @@ function FiltersForm() {
       <select
         data-testid="column-filter"
         name="column"
-        value={ actualValues.column }
-        onChange={ selectorsHandle }
+        value={ values.column }
+        onChange={ handleSelectorSearch }
       >
         {
           columns.map((opt) => (
@@ -55,8 +60,8 @@ function FiltersForm() {
       <select
         data-testid="comparison-filter"
         name="comparison"
-        value={ actualValues.comparison }
-        onChange={ selectorsHandle }
+        value={ values.comparison }
+        onChange={ handleSelectorSearch }
       >
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
@@ -66,14 +71,14 @@ function FiltersForm() {
         data-testid="value-filter"
         type="number"
         name="value"
-        value={ actualValues.value }
-        onChange={ selectorsHandle }
+        value={ values.value }
+        onChange={ handleSelectorSearch }
       />
       <button
         type="button"
         data-testid="button-filter"
         onClick={ () => {
-          sendSelectorsFilter({ ...actualValues, id: generateId() });
+          sendSelectorsFilter({ ...values, id: generateId() });
         } }
       >
         Filtrar
